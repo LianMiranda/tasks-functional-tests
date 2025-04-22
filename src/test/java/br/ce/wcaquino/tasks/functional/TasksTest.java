@@ -18,7 +18,7 @@ public class TasksTest {
         options.setCapability("browserName", "firefox");
         options.setCapability("platform", "LINUX");
         WebDriver driver = new RemoteWebDriver(new URL("http://192.168.100.50:4444/wd/hub"), options);
-        driver.navigate().to("http://192.168.100.50:8080/tasks/");
+        driver.navigate().to("http://192.168.100.50:9999/tasks/");
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         return driver;
     };
