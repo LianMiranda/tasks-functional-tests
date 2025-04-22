@@ -1,26 +1,30 @@
 package br.ce.wcaquino.tasks.functional;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class TasksTest {
 
-    public WebDriver access() {
-        System.setProperty("webdriver.gecko.driver",
-                "C:\\Users\\Lian\\Documents\\Java\\seleniumDrivers\\geckodriver.exe");
-        WebDriver driver = new FirefoxDriver();
-        driver.navigate().to("http://localhost:8080/tasks/");
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    public WebDriver access() throws MalformedURLException {
+        FirefoxOptions options = new FirefoxOptions();
+        options.setCapability("browserName", "firefox");
+        options.setCapability("platform", "LINUX");
+        WebDriver driver = new RemoteWebDriver(new URL("http://192.168.100.50:4444/wd/hub"), options);
+        driver.navigate().to("http://192.168.100.50:9999/tasks/");
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         return driver;
     };
 
     @Test
-    public void deveSalvarTarefaComSucesso() {
+    public void deveSalvarTarefaComSucesso() throws MalformedURLException {
         WebDriver driver = access();
         try {
             driver.findElement(By.id("addTodo")).click();
@@ -35,7 +39,7 @@ public class TasksTest {
     }
 
     @Test
-    public void naoDeveSalvarTarefaSemDescricao() {
+    public void naoDeveSalvarTarefaSemDescricao() throws MalformedURLException {
         WebDriver driver = access();
         try {
             driver.findElement(By.id("addTodo")).click();
@@ -50,7 +54,7 @@ public class TasksTest {
     }
 
     @Test
-    public void naoDeveSalvarTarefaSemData() {
+    public void naoDeveSalvarTarefaSemData() throws MalformedURLException {
         WebDriver driver = access();
         try {
             driver.findElement(By.id("addTodo")).click();
@@ -65,7 +69,7 @@ public class TasksTest {
     }
 
     @Test
-    public void deveSalvarTarefaComDataPassada() {
+    public void deveSalvarTarefaComDataPassada() throws MalformedURLException {
         WebDriver driver = access();
         try {
             driver.findElement(By.id("addTodo")).click();
